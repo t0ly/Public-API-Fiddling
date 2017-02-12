@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+
+    <!--<link rel="stylesheet" href="">-->
+</head>
+
+<body>
+    <p id="demo">JavaScript can change HTML content.</p>
+    
+    <button type="button" onclick='processRequest'>Click Me!</button>
+    <script type="text/javascript">
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.open('GET', "https://www.numbeo.com/api/cities?<API_Key>", true);
+        xhr.send();
+        // xhr.onloadstart = function () {
+        //     document.getElementById("demo").innerHTML = xhr.readyState;
+        // };
+        // xhr.onerror = function() {
+        //     console.log('There was an error!');
+        // };
+        // xhr.onload = function () {
+        //     var responseText = JSON.parse(xhr.responseText);
+        //     console.log(responseText.cities[0].city);
+        //     // process the response.
+        // };
+
+        xhr.addEventListener("readystatechange", processRequest, false);
+        function processRequest(e) {
+            document.getElementById("demo").innerHTML = xhr.readyState;
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.getElementById("demo").innerHTML = response.cities[0].city;
+                alert(response);
+            }
+        }
+    </script>
+</body>
+
+</html>
